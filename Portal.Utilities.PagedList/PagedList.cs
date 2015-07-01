@@ -31,24 +31,36 @@ namespace Portal.Utilities.PagedList
             int? NavigatorSize = null
         ) {
             // Inicializa opções de página
-            pageOptions = new PageOptions(ItemCount, PageNumber, PageSize);
+            options = new PageOptions(ItemCount, PageNumber, PageSize);
 
-            // Remove pageNumber da URL
-            string[] parameters = {"pageNumber"};
-            OriginUrl = UrlHelper.RemoveParameterFromQueryString(OriginUrl, parameters);
+            
+            OriginUrl = GetUrlBaseToPaging(OriginUrl, PageSize);
 
             // Inicializa Navegador de URL
-            urlNavigator = new UrlNavigator(OriginUrl, pageOptions.pageNumber, pageOptions.pageCount, NavigatorSize);
+            navigator = new UrlNavigator(OriginUrl, options.pageNumber, options.pageCount, NavigatorSize);
         }
 
         /// <summary>
         /// Opções da página
         /// </summary>
-        public PageOptions pageOptions { get; private set; }
+        public PageOptions options { get; private set; }
 
         /// <summary>
         /// Navegador de URLs Básicas 
         /// </summary>
-        public UrlNavigator urlNavigator { get; private set; }
+        public UrlNavigator navigator { get; private set; }
+
+        private string GetUrlBaseToPaging(string url, int pageSize) 
+        {
+            // Remove pageNumber e pageSize da URL
+            string[] parameters = { "pageNumber", "pageSize" };
+            url = UrlHelper.RemoveParameterFromQueryString(url, parameters);
+
+            // Verifica se URL possui flag de querystring, para inserir "?" ou "&"
+            url += (url.Contains("?")) ? "&" : "?";
+
+            // Concatena pageSize (fixo para todas urls)
+            return url + "pageSize=" + pageSize.ToString();
+        }
     }
 }

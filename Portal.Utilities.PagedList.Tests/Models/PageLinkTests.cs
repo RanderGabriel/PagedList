@@ -22,10 +22,10 @@ namespace Portal.Utilities.PagedList.Tests.Models
             string urlreturn = "http://www.google.com?pageNumber=3";
 
             // Cria objeto
-            PageLink link = new PageLink(url, 3, 1);
+            PageLink link = new PageLink(url, 3);
 
             // Verifica a url recebida
-            Assert.AreEqual(urlreturn, link.pageUrl);
+            Assert.AreEqual(urlreturn, link.url);
         }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace Portal.Utilities.PagedList.Tests.Models
             string urlreturn = "http://www.google.com/xxx?teste=123&pageNumber=3";
 
             // Cria objeto
-            PageLink link = new PageLink(url, 3, 1);
+            PageLink link = new PageLink(url, 3);
 
             // Verifica a url recebida
-            Assert.AreEqual(urlreturn, link.pageUrl);
+            Assert.AreEqual(urlreturn, link.url);
         }
 
         /// <summary>
@@ -58,42 +58,10 @@ namespace Portal.Utilities.PagedList.Tests.Models
             string urlreturn = "?teste=123&pageNumber=3";
 
             // Cria objeto
-            PageLink link = new PageLink(url, 3, 1);
+            PageLink link = new PageLink(url, 3);
 
             // Verifica a url recebida
-            Assert.AreEqual(urlreturn, link.pageUrl);
-        }
-
-        /// <summary>
-        /// Testa a verificação se a página é a página atual
-        /// </summary>
-        [TestMethod]
-        public void PageLink_Constructor_IsCurrent()
-        {
-            // URL a ser passada
-            string url = "?teste=123";
-
-            // Cria objeto
-            PageLink link = new PageLink(url, 3, 3);
-
-            // Verifica se é pagina atual
-            Assert.IsTrue(link.isCurrent);
-        }
-
-        /// <summary>
-        /// Testa a verificação se a página não é a página atual
-        /// </summary>
-        [TestMethod]
-        public void PageLink_Constructor_IsNotCurrent()
-        {
-            // URL a ser passada
-            string url = "?teste=123";
-
-            // Cria objeto
-            PageLink link = new PageLink(url, 1, 3);
-
-            // Verifica se é pagina atual
-            Assert.IsFalse(link.isCurrent);
+            Assert.AreEqual(urlreturn, link.url);
         }
     }
 }

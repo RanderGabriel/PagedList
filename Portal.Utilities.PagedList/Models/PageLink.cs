@@ -16,35 +16,26 @@ namespace Portal.Utilities.PagedList.Models
         /// </summary>
         /// <param name="Url">URL sem pageNumber</param>
         /// <param name="PageNumber">Número da página</param>
-        /// <param name="CurrentPageNumber">Número da página selecionada</param>
-        public PageLink(string Url, int PageNumber, int CurrentPageNumber) {
+        public PageLink(string Url, int PageNumber) {
             
             // Define o número da página
-            pageNumber = PageNumber;
+            number = PageNumber;
 
             // Verifica se URL possui flag de querystring, para inserir "?" ou "&"
             Url += (Url.Contains("?")) ? "&" : "?" ;
 
             // Define a URL com o número da página
-            pageUrl = Url + "pageNumber=" + PageNumber.ToString();
-
-            // Verifica se é a página atual
-            isCurrent = (PageNumber == CurrentPageNumber);
+            url = Url + "pageNumber=" + PageNumber.ToString();
         }
 
         /// <summary>
         /// URL para acessar a página
         /// </summary>
-        public string pageUrl { get; private set; }
+        public string url { get; private set; }
 
         /// <summary>
         /// Número da página
         /// </summary>
-        public int pageNumber { get; private set; }
-
-        /// <summary>
-        /// Indica se é a página atual
-        /// </summary>
-        public bool isCurrent { get; private set; }
+        public int number { get; private set; }
     }
 }

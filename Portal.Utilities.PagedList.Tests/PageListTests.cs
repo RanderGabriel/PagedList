@@ -13,11 +13,11 @@ namespace Portal.Utilities.PagedList.Tests
         /// URL para testes
         /// </summary>
         private string url = "http://portal.mundipagg.com/transactions/debitonlinetransaction?pageNumber=5&sortField=OrderReference&sortMode=DESC";
-        
+
         /// <summary>
         /// URL para testes com url depois de processada, sem o número da página
         /// </summary>
-        private string urlAfterMountingWithoutPageNumber = "http://portal.mundipagg.com/transactions/debitonlinetransaction?sortField=OrderReference&sortMode=DESC&pageNumber=";
+        private string urlAfterMountingWithoutPageNumber = "http://portal.mundipagg.com/transactions/debitonlinetransaction?sortField=OrderReference&sortMode=DESC&pageSize=10&pageNumber=";
 
         /// <summary>
         /// Testa a criação do objeto
@@ -28,16 +28,16 @@ namespace Portal.Utilities.PagedList.Tests
             // total de itens existente em todas as páginas
             int itemCount = 347;
             // Itens por página
-            int pageSize= 12;
+            int pageSize = 12;
             // Página atual
             int pageNumber = 1;
 
             // Cria lista paginada
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize);
-            
+
             // Verifica se conseguiu criar objetos filhos
-            Assert.IsNotNull(pagedList.pageOptions);
-            Assert.IsNotNull(pagedList.urlNavigator);
+            Assert.IsNotNull(pagedList.options);
+            Assert.IsNotNull(pagedList.navigator);
         }
 
         /// <summary>
@@ -53,16 +53,16 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount);
 
             // Verifica se conseguiu criar objetos filhos
-            Assert.IsNotNull(pagedList.pageOptions);
-            Assert.IsNotNull(pagedList.urlNavigator);
+            Assert.IsNotNull(pagedList.options);
+            Assert.IsNotNull(pagedList.navigator);
 
             // Verifica valores padrões nulo para navigatorsize e numericpages
-            Assert.IsNull(pagedList.urlNavigator.navigatorSize);
-            Assert.IsNull(pagedList.urlNavigator.numericPages);
+            Assert.IsNull(pagedList.navigator.navigatorSize);
+            Assert.IsNull(pagedList.navigator.numerics);
 
             // Verifica valores padrões para pagenumber e pagesize
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, 1);
-            Assert.AreEqual(pagedList.pageOptions.pageSize, 10);
+            Assert.AreEqual(pagedList.options.pageNumber, 1);
+            Assert.AreEqual(pagedList.options.pageSize, 10);
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // Verifica se conseguiu criar opções
-            Assert.IsNotNull(pagedList.pageOptions);
+            Assert.IsNotNull(pagedList.options);
 
             // Verifica tamanho maximo de paginas calculadas e se numero e tamanho da pagina estao corretos
-            Assert.AreEqual(pagedList.pageOptions.pageCount, 35);
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
-            Assert.AreEqual(pagedList.pageOptions.pageSize, pageSize);
+            Assert.AreEqual(pagedList.options.pageCount, 35);
+            Assert.AreEqual(pagedList.options.pageNumber, pageNumber);
+            Assert.AreEqual(pagedList.options.pageSize, pageSize);
         }
 
         /// <summary>
@@ -111,45 +111,14 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // Verifica se conseguiu criar navegador de url
-            Assert.IsNotNull(pagedList.urlNavigator);
+            Assert.IsNotNull(pagedList.navigator);
 
             // Verifica tamanho do navegador e das paginas numericas
-            Assert.AreEqual(pagedList.urlNavigator.navigatorSize, 6);
-            Assert.AreEqual(pagedList.urlNavigator.numericPages.Count, 6);
+            Assert.AreEqual(pagedList.navigator.navigatorSize, 6);
+            Assert.AreEqual(pagedList.navigator.numerics.Count, 6);
 
             // Verifica se populou corretamente
-            Assert.AreEqual(pagedList.urlNavigator.numericPages[2].pageNumber, pageNumber);
-        }
-
-        /// <summary>
-        /// Testa a relação dos parametros passados e atribuidos as opções e ao navegador de url para pagina atual
-        /// </summary>
-        [TestMethod]
-        public void PagedList_Construct_PageOptionsAndUrlNavigator_CurrentPage()
-        {
-            // total de itens existente em todas as páginas
-            int itemCount = 347;
-            // Itens por página
-            int pageSize = 10;
-            // Página atual
-            int pageNumber = 7;
-            // Tamanho do navegador de url
-            int navigatorSize = 6;
-
-            // Cria lista paginada 
-            PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
-
-            // verifica numera da página nas opções
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
-
-            // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(pageNumber, pagedList.urlNavigator.currentPage.pageNumber);
-            // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(
-                urlAfterMountingWithoutPageNumber+pageNumber.ToString(), 
-                pagedList.urlNavigator.currentPage.pageUrl);
-            // verifica se é página atual
-            Assert.IsTrue(pagedList.urlNavigator.currentPage.isCurrent);
+            Assert.AreEqual(pagedList.navigator.numerics[2].number, pageNumber);
         }
 
         /// <summary>
@@ -171,16 +140,14 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // verifica numera da página nas opções
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
+            Assert.AreEqual(pagedList.options.pageNumber, pageNumber);
 
             // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(1, pagedList.urlNavigator.firstPage.pageNumber);
+            Assert.AreEqual(1, pagedList.navigator.first.number);
             // verifica se recebeu número da pagina corretamente
             Assert.AreEqual(
                 urlAfterMountingWithoutPageNumber + "1",
-                pagedList.urlNavigator.firstPage.pageUrl);
-            // verifica se não é página atual
-            Assert.IsFalse(pagedList.urlNavigator.firstPage.isCurrent);
+                pagedList.navigator.first.url);
         }
 
         /// <summary>
@@ -202,16 +169,14 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // verifica numera da página nas opções
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
+            Assert.AreEqual(pagedList.options.pageNumber, pageNumber);
 
             // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(pageNumber-1, pagedList.urlNavigator.previousPage.pageNumber);
+            Assert.AreEqual(pageNumber - 1, pagedList.navigator.previous.number);
             // verifica se recebeu número da pagina corretamente
             Assert.AreEqual(
-                urlAfterMountingWithoutPageNumber + (pageNumber-1).ToString(),
-                pagedList.urlNavigator.previousPage.pageUrl);
-            // verifica se não é página atual
-            Assert.IsFalse(pagedList.urlNavigator.previousPage.isCurrent);
+                urlAfterMountingWithoutPageNumber + (pageNumber - 1).ToString(),
+                pagedList.navigator.previous.url);
         }
 
         /// <summary>
@@ -233,16 +198,14 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // verifica numera da página nas opções
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
+            Assert.AreEqual(pagedList.options.pageNumber, pageNumber);
 
             // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(pageNumber + 1, pagedList.urlNavigator.nextPage.pageNumber);
+            Assert.AreEqual(pageNumber + 1, pagedList.navigator.next.number);
             // verifica se recebeu número da pagina corretamente
             Assert.AreEqual(
                 urlAfterMountingWithoutPageNumber + (pageNumber + 1).ToString(),
-                pagedList.urlNavigator.nextPage.pageUrl);
-            // verifica se não é página atual
-            Assert.IsFalse(pagedList.urlNavigator.nextPage.isCurrent);
+                pagedList.navigator.next.url);
         }
 
         /// <summary>
@@ -266,16 +229,14 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // verifica numera da página nas opções
-            Assert.AreEqual(pagedList.pageOptions.pageNumber, pageNumber);
+            Assert.AreEqual(pagedList.options.pageNumber, pageNumber);
 
             // verifica se recebeu número da pagina corretamente
-            Assert.AreEqual(pageCount, pagedList.urlNavigator.lastPage.pageNumber);
+            Assert.AreEqual(pageCount, pagedList.navigator.last.number);
             // verifica se recebeu número da pagina corretamente
             Assert.AreEqual(
                 urlAfterMountingWithoutPageNumber + pageCount.ToString(),
-                pagedList.urlNavigator.lastPage.pageUrl);
-            // verifica se não é página atual
-            Assert.IsFalse(pagedList.urlNavigator.lastPage.isCurrent);
+                pagedList.navigator.last.url);
         }
 
         /// <summary>
@@ -297,12 +258,12 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
             // verifica se recebeu numeração correta nas paginas
-            Assert.AreEqual(30, pagedList.urlNavigator.numericPages[0].pageNumber);
-            Assert.AreEqual(31, pagedList.urlNavigator.numericPages[1].pageNumber);
-            Assert.AreEqual(32, pagedList.urlNavigator.numericPages[2].pageNumber);
-            Assert.AreEqual(33, pagedList.urlNavigator.numericPages[3].pageNumber);
-            Assert.AreEqual(34, pagedList.urlNavigator.numericPages[4].pageNumber);
-            Assert.AreEqual(35, pagedList.urlNavigator.numericPages[5].pageNumber);
+            Assert.AreEqual(30, pagedList.navigator.numerics[0].number);
+            Assert.AreEqual(31, pagedList.navigator.numerics[1].number);
+            Assert.AreEqual(32, pagedList.navigator.numerics[2].number);
+            Assert.AreEqual(33, pagedList.navigator.numerics[3].number);
+            Assert.AreEqual(34, pagedList.navigator.numerics[4].number);
+            Assert.AreEqual(35, pagedList.navigator.numerics[5].number);
         }
 
         /// <summary>
@@ -323,9 +284,9 @@ namespace Portal.Utilities.PagedList.Tests
             // Cria lista paginada com navegador { [1] 2 3 4 5 6 }
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
-            // verifica se são paginas atuais
-            Assert.IsTrue(pagedList.urlNavigator.firstPage.isCurrent);
-            Assert.IsTrue(pagedList.urlNavigator.previousPage.isCurrent);
+            // verifica se bão foram construidas
+            Assert.IsNull(pagedList.navigator.first);
+            Assert.IsNull(pagedList.navigator.previous);
         }
 
         /// <summary>
@@ -346,9 +307,9 @@ namespace Portal.Utilities.PagedList.Tests
             // Cria lista paginada com navegador { 30 31 32 33 34 [35] }
             PagedList pagedList = new PagedList(url, itemCount, pageNumber, pageSize, navigatorSize);
 
-            // verifica se são paginas atuais
-            Assert.IsTrue(pagedList.urlNavigator.lastPage.isCurrent);
-            Assert.IsTrue(pagedList.urlNavigator.nextPage.isCurrent);
+            // verifica se bão foram construidas
+            Assert.IsNull(pagedList.navigator.last);
+            Assert.IsNull(pagedList.navigator.next);
         }
 
         /// <summary>
@@ -372,7 +333,7 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize, navigatorSize);
 
             // Json esperado
-            string jsonExpected = "{\"pageOptions\":{\"pageNumber\":5,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"urlNavigator\":{\"navigatorSize\":3,\"firstPage\":{\"pageUrl\":\"?pageNumber=1\",\"pageNumber\":1,\"isCurrent\":false},\"previousPage\":{\"pageUrl\":\"?pageNumber=4\",\"pageNumber\":4,\"isCurrent\":false},\"currentPage\":{\"pageUrl\":\"?pageNumber=5\",\"pageNumber\":5,\"isCurrent\":true},\"nextPage\":{\"pageUrl\":\"?pageNumber=6\",\"pageNumber\":6,\"isCurrent\":false},\"lastPage\":{\"pageUrl\":\"?pageNumber=10\",\"pageNumber\":10,\"isCurrent\":false},\"numericPages\":[{\"pageUrl\":\"?pageNumber=4\",\"pageNumber\":4,\"isCurrent\":false},{\"pageUrl\":\"?pageNumber=5\",\"pageNumber\":5,\"isCurrent\":true},{\"pageUrl\":\"?pageNumber=6\",\"pageNumber\":6,\"isCurrent\":false}]}}";
+            string jsonExpected = "{\"options\":{\"pageNumber\":5,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"navigator\":{\"navigatorSize\":3,\"first\":{\"url\":\"?pageSize=10&pageNumber=1\",\"number\":1},\"previous\":{\"url\":\"?pageSize=10&pageNumber=4\",\"number\":4},\"next\":{\"url\":\"?pageSize=10&pageNumber=6\",\"number\":6},\"last\":{\"url\":\"?pageSize=10&pageNumber=10\",\"number\":10},\"numerics\":[{\"url\":\"?pageSize=10&pageNumber=4\",\"number\":4},{\"url\":\"?pageSize=10&pageNumber=5\",\"number\":5},{\"url\":\"?pageSize=10&pageNumber=6\",\"number\":6}]}}";
 
             // Converte para string json
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
@@ -399,12 +360,128 @@ namespace Portal.Utilities.PagedList.Tests
             PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize);
 
             // Json esperado
-            string jsonExpected = "{\"pageOptions\":{\"pageNumber\":5,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"urlNavigator\":{\"navigatorSize\":null,\"firstPage\":{\"pageUrl\":\"?pageNumber=1\",\"pageNumber\":1,\"isCurrent\":false},\"previousPage\":{\"pageUrl\":\"?pageNumber=4\",\"pageNumber\":4,\"isCurrent\":false},\"currentPage\":{\"pageUrl\":\"?pageNumber=5\",\"pageNumber\":5,\"isCurrent\":true},\"nextPage\":{\"pageUrl\":\"?pageNumber=6\",\"pageNumber\":6,\"isCurrent\":false},\"lastPage\":{\"pageUrl\":\"?pageNumber=10\",\"pageNumber\":10,\"isCurrent\":false},\"numericPages\":null}}";
+            string jsonExpected = "{\"options\":{\"pageNumber\":5,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"navigator\":{\"navigatorSize\":null,\"first\":{\"url\":\"?pageSize=10&pageNumber=1\",\"number\":1},\"previous\":{\"url\":\"?pageSize=10&pageNumber=4\",\"number\":4},\"next\":{\"url\":\"?pageSize=10&pageNumber=6\",\"number\":6},\"last\":{\"url\":\"?pageSize=10&pageNumber=10\",\"number\":10},\"numerics\":null}}";
 
             // Converte para string json
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
 
             Assert.AreEqual(json, jsonExpected);
         }
-    }
+
+        /// <summary>
+        /// Testa a conversão para uma string json com navegador e na primeira página
+        /// </summary>
+        [TestMethod]
+        public void PagedList_ToJson_WithUrlNavigator_FirstPage()
+        {
+            // define url curta
+            string minimalUrl = "";
+            // total de itens existente em todas as páginas
+            int itemCount = 100;
+            // Itens por página
+            int pageSize = 10;
+            // Página atual
+            int pageNumber = 1;
+            // Tamanho do navegador de url
+            int navigatorSize = 3;
+
+            // Cria lista paginada 
+            PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize, navigatorSize);
+
+            // Json esperado
+            string jsonExpected = "{\"options\":{\"pageNumber\":1,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"navigator\":{\"navigatorSize\":3,\"first\":null,\"previous\":null,\"next\":{\"url\":\"?pageSize=10&pageNumber=2\",\"number\":2},\"last\":{\"url\":\"?pageSize=10&pageNumber=10\",\"number\":10},\"numerics\":[{\"url\":\"?pageSize=10&pageNumber=1\",\"number\":1},{\"url\":\"?pageSize=10&pageNumber=2\",\"number\":2},{\"url\":\"?pageSize=10&pageNumber=3\",\"number\":3}]}}";
+
+            // Converte para string json
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
+
+            Assert.AreEqual(json, jsonExpected);
+        }
+
+        /// <summary>
+        /// Testa a conversão para uma string json com navegador na ultima página
+        /// </summary>
+        [TestMethod]
+        public void PagedList_ToJson_WithUrlNavigator_LastPage()
+        {
+            // define url curta
+            string minimalUrl = "";
+            // total de itens existente em todas as páginas
+            int itemCount = 100;
+            // Itens por página
+            int pageSize = 10;
+            // Página atual
+            int pageNumber = 10;
+            // Tamanho do navegador de url
+            int navigatorSize = 3;
+
+            // Cria lista paginada 
+            PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize, navigatorSize);
+
+            // Json esperado
+            string jsonExpected = "{\"options\":{\"pageNumber\":10,\"pageSize\":10,\"itemCount\":100,\"pageCount\":10},\"navigator\":{\"navigatorSize\":3,\"first\":{\"url\":\"?pageSize=10&pageNumber=1\",\"number\":1},\"previous\":{\"url\":\"?pageSize=10&pageNumber=9\",\"number\":9},\"next\":null,\"last\":null,\"numerics\":[{\"url\":\"?pageSize=10&pageNumber=8\",\"number\":8},{\"url\":\"?pageSize=10&pageNumber=9\",\"number\":9},{\"url\":\"?pageSize=10&pageNumber=10\",\"number\":10}]}}";
+
+            // Converte para string json
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
+
+            Assert.AreEqual(json, jsonExpected);
+        }
+
+        /// <summary>
+        /// Testa a conversão para uma string json com navegador na unica pagina existente
+        /// </summary>
+        [TestMethod]
+        public void PagedList_ToJson_WithUrlNavigator_OnlyPage()
+        {
+            // define url curta
+            string minimalUrl = "";
+            // total de itens existente em todas as páginas
+            int itemCount = 10;
+            // Itens por página
+            int pageSize = 10;
+            // Página atual
+            int pageNumber = 1;
+            // Tamanho do navegador de url
+            int navigatorSize = 3;
+
+            // Cria lista paginada 
+            PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize, navigatorSize);
+
+            // Json esperado
+            string jsonExpected = "{\"options\":{\"pageNumber\":1,\"pageSize\":10,\"itemCount\":10,\"pageCount\":1},\"navigator\":{\"navigatorSize\":3,\"first\":null,\"previous\":null,\"next\":null,\"last\":null,\"numerics\":[{\"url\":\"?pageSize=10&pageNumber=1\",\"number\":1}]}}";
+
+            // Converte para string json
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
+
+            Assert.AreEqual(json, jsonExpected);
+        }
+
+        /// <summary>
+        /// Testa a conversão para uma string json com navegador na unica pagina existente
+        /// </summary>
+        [TestMethod]
+        public void PagedList_ToJson_WithUrlNavigator_EmptyItems()
+        {
+            // define url curta
+            string minimalUrl = "";
+            // total de itens existente em todas as páginas
+            int itemCount = 0;
+            // Itens por página
+            int pageSize = 10;
+            // Página atual
+            int pageNumber = 1;
+            // Tamanho do navegador de url
+            int navigatorSize = 3;
+
+            // Cria lista paginada 
+            PagedList pagedList = new PagedList(minimalUrl, itemCount, pageNumber, pageSize, navigatorSize);
+
+            // Json esperado
+            string jsonExpected = "{\"options\":{\"pageNumber\":1,\"pageSize\":10,\"itemCount\":0,\"pageCount\":0},\"navigator\":{\"navigatorSize\":3,\"first\":null,\"previous\":null,\"next\":null,\"last\":null,\"numerics\":null}}";
+
+            // Converte para string json
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(pagedList);
+
+            Assert.AreEqual(json, jsonExpected);
+        }
+    }    
 }

@@ -19,7 +19,7 @@ namespace Portal.Utilities.PagedList.Models
         /// <param name="PageCount">Número máximo de páginas</param>
         /// <param name="NavigatorSize">Tamanho do navegador, se nulo, zero ou negativo, não gera navegador numérico</param>
         public UrlNavigator(string Url, int PageNumber, int PageCount, int? NavigatorSize) {
-            
+
             // Globaliza variaveis na classe
             _pageNumber = PageNumber;
             _pageCount = PageCount;
@@ -59,32 +59,27 @@ namespace Portal.Utilities.PagedList.Models
         /// <summary>
         /// URL da primeira página
         /// </summary>
-        public PageLink firstPage { get; private set; }
+        public PageLink first { get; private set; }
 
         /// <summary>
         /// URL da página anterior 
         /// </summary>
-        public PageLink previousPage { get; private set; }
-
-        /// <summary>
-        /// URL da página atual
-        /// </summary>
-        public PageLink currentPage { get; private set; }
+        public PageLink previous { get; private set; }
 
         /// <summary>
         /// URL da próxima página
         /// </summary>
-        public PageLink nextPage { get; private set; }
+        public PageLink next { get; private set; }
 
         /// <summary>
         /// URL da última página
         /// </summary>
-        public PageLink lastPage { get; private set; }
+        public PageLink last { get; private set; }
 
         /// <summary>
         /// Todas as páginas numéricas
         /// </summary>
-        public IList<PageLink> numericPages { get; private set; }
+        public IList<PageLink> numerics { get; private set; }
 
         /// <summary>
         /// Gera as páginas básicas (primeira, anterior, atual, próxima e ultima)
@@ -93,22 +88,27 @@ namespace Portal.Utilities.PagedList.Models
         /// <param name="PageNumber">Número da página</param>
         /// <param name="PageCount">Total de Páginas</param>
         private void GenerateBasicNavigation() { 
-            // Primeira Página
-            firstPage = new PageLink(_url, 1 ,_pageNumber);
+            // Apenas se não for pagina atual
+            if (_pageNumber != 1)
+            {
+                // Primeira Página
+                first = new PageLink(_url, 1);
 
-            // Página Anterior
-            int previousNumber = (_pageNumber == 1) ? 1 : _pageNumber - 1;
-            previousPage = new PageLink(_url, previousNumber, _pageNumber);
+                // Página Anterior
+                int previousNumber = _pageNumber - 1;
+                previous = new PageLink(_url, previousNumber);
+            }
 
-            // Página Atual
-            currentPage = new PageLink(_url, _pageNumber, _pageNumber);
+            // Apenas se não for pagina atual
+            if (_pageNumber != _pageCount && _pageCount != 0)
+            {
+                // Página Seguinte
+                int nextNumber = _pageNumber + 1;
+                next = new PageLink(_url, nextNumber);
 
-            // Página Seguinte
-            int nextNumber = (_pageNumber == _pageCount) ? _pageCount : _pageNumber + 1;
-            nextPage = new PageLink(_url, nextNumber, _pageNumber);
-
-            // Última Página
-            lastPage = new PageLink(_url, _pageCount, _pageNumber);
+                // Última Página
+                last = new PageLink(_url, _pageCount);
+            }
         }
 
         /// <summary>
@@ -116,6 +116,9 @@ namespace Portal.Utilities.PagedList.Models
         /// </summary>
         public void GenerateNumericNavigation() 
         {
+            // Se não tiver paginas, não gera 
+            if (_pageCount == 0) return;
+
             // Recupera limites da exibição da listagem numérica
             int[] limits = GetComplexLimits();
             
@@ -124,13 +127,13 @@ namespace Portal.Utilities.PagedList.Models
             int end = limits[1];
 
             // Instancia lista
-            numericPages = new List<PageLink>();
+            numerics = new List<PageLink>();
 
             // Cria itens da lista
             for(int i=start; i<=end; i++)
             {
                 //Cria item na lista
-                numericPages.Add( new PageLink(_url, i, _pageNumber) );
+                numerics.Add( new PageLink(_url, i) );
             }
         }
 

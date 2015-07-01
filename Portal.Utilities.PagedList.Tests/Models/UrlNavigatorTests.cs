@@ -27,12 +27,11 @@ namespace Portal.Utilities.PagedList.Tests.Models
             UrlNavigator nav = new UrlNavigator(url, 4, 10, null);
 
             // Obtem a página
-            PageLink page = nav.firstPage;
+            PageLink page = nav.first;
 
             // Verifica se está na página 1, nao é atual e a url
-            Assert.AreEqual(page.pageNumber, 1);
-            Assert.AreEqual(page.isCurrent, false);
-            Assert.AreEqual(page.pageUrl, url+"?pageNumber=1");
+            Assert.AreEqual(page.number, 1);
+            Assert.AreEqual(page.url, url+"?pageNumber=1");
         }
 
         /// <summary>
@@ -45,30 +44,11 @@ namespace Portal.Utilities.PagedList.Tests.Models
             UrlNavigator nav = new UrlNavigator(url, 4, 10, null);
 
             // Obtem a página
-            PageLink page = nav.previousPage;
+            PageLink page = nav.previous;
 
             // Verifica se está na página 3, nao é atual e a url
-            Assert.AreEqual(page.pageNumber, 3);
-            Assert.AreEqual(page.isCurrent, false);
-            Assert.AreEqual(page.pageUrl, url + "?pageNumber=3");
-        }
-
-        /// <summary>
-        /// Testa a criação da página atual
-        /// </summary>
-        [TestMethod]
-        public void UrlNavigator_Construct_CurrentPage()
-        {
-            // cria navegador de url
-            UrlNavigator nav = new UrlNavigator(url, 4, 10, null);
-
-            // Obtem a página
-            PageLink page = nav.currentPage;
-
-            // Verifica se está na página 4, é atual e a url
-            Assert.AreEqual(page.pageNumber, 4);
-            Assert.AreEqual(page.isCurrent, true);
-            Assert.AreEqual(page.pageUrl, url + "?pageNumber=4");
+            Assert.AreEqual(page.number, 3);
+            Assert.AreEqual(page.url, url + "?pageNumber=3");
         }
 
         /// <summary>
@@ -81,12 +61,11 @@ namespace Portal.Utilities.PagedList.Tests.Models
             UrlNavigator nav = new UrlNavigator(url, 4, 10, null);
 
             // Obtem a página
-            PageLink page = nav.nextPage;
+            PageLink page = nav.next;
 
             // Verifica se está na página 5, nao é atual e a url
-            Assert.AreEqual(page.pageNumber, 5);
-            Assert.AreEqual(page.isCurrent, false);
-            Assert.AreEqual(page.pageUrl, url + "?pageNumber=5");
+            Assert.AreEqual(page.number, 5);
+            Assert.AreEqual(page.url, url + "?pageNumber=5");
         }
 
         /// <summary>
@@ -99,12 +78,11 @@ namespace Portal.Utilities.PagedList.Tests.Models
             UrlNavigator nav = new UrlNavigator(url, 4, 10, null);
 
             // Obtem a página
-            PageLink page = nav.lastPage;
+            PageLink page = nav.last;
 
             // Verifica se está na página 10, nao é atual e a url
-            Assert.AreEqual(page.pageNumber, 10);
-            Assert.AreEqual(page.isCurrent, false);
-            Assert.AreEqual(page.pageUrl, url + "?pageNumber=10");
+            Assert.AreEqual(page.number, 10);
+            Assert.AreEqual(page.url, url + "?pageNumber=10");
         }
 
         /// <summary>
@@ -120,11 +98,11 @@ namespace Portal.Utilities.PagedList.Tests.Models
 
             // Verifica se navigatorsize não foi definido e se não foi gerado numericPages
             Assert.IsNull(nav1.navigatorSize);
-            Assert.IsNull(nav1.numericPages);
+            Assert.IsNull(nav1.numerics);
             Assert.IsNull(nav2.navigatorSize);
-            Assert.IsNull(nav2.numericPages);
+            Assert.IsNull(nav2.numerics);
             Assert.IsNull(nav3.navigatorSize);
-            Assert.IsNull(nav3.numericPages);
+            Assert.IsNull(nav3.numerics);
         }
 
         /// <summary>
@@ -139,7 +117,7 @@ namespace Portal.Utilities.PagedList.Tests.Models
             // Verifica se navigatorsize ainda é 10
             Assert.AreEqual(nav.navigatorSize, 10);
             // Verifica se numericpages recebeu apenas 8 itens
-            Assert.AreEqual(nav.numericPages.Count, 8);            
+            Assert.AreEqual(nav.numerics.Count, 8);            
         }
 
         /// <summary>
@@ -152,14 +130,14 @@ namespace Portal.Utilities.PagedList.Tests.Models
             UrlNavigator nav = new UrlNavigator(url, 37, 300, 10);
 
             // obtem numericpages
-            List<PageLink> numPages = (List<PageLink>)nav.numericPages;
+            List<PageLink> numPages = (List<PageLink>)nav.numerics;
 
             // Verifica se navigatorsize é 10
             Assert.AreEqual(nav.navigatorSize, 10);
             // Verifica se numericpages recebeu apenas 10 itens
-            Assert.AreEqual(nav.numericPages.Count, 10);
+            Assert.AreEqual(nav.numerics.Count, 10);
             // Verifica se populou corretamente
-            Assert.AreEqual(numPages[9].pageNumber, 42);
+            Assert.AreEqual(numPages[9].number, 42);
         }
     }
 }
