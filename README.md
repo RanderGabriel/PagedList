@@ -32,42 +32,33 @@ PagedList pagedList = new PagedList(originUrl, itemCount, pageNumber, pageSize);
 Um exemplo do objeto obtido no exemplo acima (convertido em *JSON* para melhor visualizar a sua estrutura).
 
 ```json
-{  
-   "pageOptions":{  
-      "pageNumber":5,
-      "pageSize":10,
-      "itemCount":347,
-      "pageCount":35
-   },
-   "urlNavigator":{  
-      "navigatorSize":null,
-      "firstPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
-         "pageNumber":1,
-         "isCurrent":false
-      },
-      "previousPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
-         "pageNumber":4,
-         "isCurrent":false
-      },
-      "currentPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=5",
-         "pageNumber":5,
-         "isCurrent":true
-      },
-      "nextPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
-         "pageNumber":6,
-         "isCurrent":false
-      },
-      "lastPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
-         "pageNumber":35,
-         "isCurrent":false
-      },
-      "numericPages":null
-   }
+{
+	"options" : {
+		"pageNumber" : 5,
+		"pageSize" : 10,
+		"itemCount" : 347,
+		"pageCount" : 35
+	},
+	"navigator" : {
+		"navigatorSize" : null,
+		"first" : {
+			"url" : "http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+			"number" : 1
+		},
+		"previous" : {
+			"url" : "http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
+			"number" : 4
+		},
+		"next" : {
+			"url" : "http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
+			"number" : 6
+		},
+		"last" : {
+			"url" : "http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
+			"number" : 35
+		},
+		"numerics" : null
+	}
 }
 ```
 
@@ -105,91 +96,208 @@ Um exemplo do objeto obtido no exemplo acima (convertido em *JSON* para melhor v
 
 ```json
 {  
-   "pageOptions":{  
+   "options":{  
       "pageNumber":5,
       "pageSize":10,
       "itemCount":347,
       "pageCount":35
    },
-   "urlNavigator":{  
+   "navigator":{  
       "navigatorSize":10,
-      "firstPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
-         "pageNumber":1,
-         "isCurrent":false
+      "first":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+         "number":1
       },
-      "previousPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
-         "pageNumber":4,
-         "isCurrent":false
+      "previous":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
+         "number":4
       },
-      "currentPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=5",
-         "pageNumber":5,
-         "isCurrent":true
+      "next":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
+         "number":6
       },
-      "nextPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
-         "pageNumber":6,
-         "isCurrent":false
+      "last":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
+         "number":35
       },
-      "lastPage":{  
-         "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
-         "pageNumber":35,
-         "isCurrent":false
-      },
-      "numericPages":[  
+      "numerics":[  
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
-            "pageNumber":1,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+            "number":1
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=2",
-            "pageNumber":2,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=2",
+            "number":2
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=3",
-            "pageNumber":3,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=3",
+            "number":3
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
-            "pageNumber":4,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=4",
+            "number":4
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=5",
-            "pageNumber":5,
-            "isCurrent":true
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=5",
+            "number":5
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
-            "pageNumber":6,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=6",
+            "number":6
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=7",
-            "pageNumber":7,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=7",
+            "number":7
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=8",
-            "pageNumber":8,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=8",
+            "number":8
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
-            "pageNumber":9,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
+            "number":9
          },
          {  
-            "pageUrl":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=10",
-            "pageNumber":10,
-            "isCurrent":false
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=10",
+            "number":10
          }
       ]
+   }
+}
+```
+
+# Exemplos de algumas possíveis respostas
+
+Estes exemplos possuem navegador numérico com tamanho 3.
+
+## Página atual é a primeira
+
+```json
+{  
+   "options":{  
+      "pageNumber":1,
+      "pageSize":10,
+      "itemCount":347,
+      "pageCount":35
+   },
+   "navigator":{  
+      "navigatorSize":3,
+      "first":null,
+      "previous":null,
+      "next":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=2",
+         "number":2
+      },
+      "last":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
+         "number":35
+      },
+      "numerics":[  
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+            "number":1
+         },
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=2",
+            "number":2
+         },
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=3",
+            "number":3
+         }
+      ]
+   }
+}
+```
+## Página atual é a última
+
+```json
+{  
+   "options":{  
+      "pageNumber":10,
+      "pageSize":10,
+      "itemCount":347,
+      "pageCount":35
+   },
+   "navigator":{  
+      "navigatorSize":3,
+      "first":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+         "number":1
+      },
+      "previous":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
+         "number":9
+      },
+      "next":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=11",
+         "number":11
+      },
+      "last":{  
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
+         "number":35
+      },
+      "numerics":[  
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
+            "number":9
+         },
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=10",
+            "number":10
+         },
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=11",
+            "number":11
+         }
+      ]
+   }
+}
+```
+
+## Única página
+
+```json
+{  
+   "options":{  
+      "pageNumber":1,
+      "pageSize":10,
+      "itemCount":10,
+      "pageCount":1
+   },
+   "navigator":{  
+      "navigatorSize":3,
+      "first":null,
+      "previous":null,
+      "next":null,
+      "last":null,
+      "numerics":[  
+         {  
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=1",
+            "number":1
+         }
+      ]
+   }
+}
+```
+
+## Nenhum item para exibir
+
+```json
+{  
+   "options":{  
+      "pageNumber":1,
+      "pageSize":10,
+      "itemCount":0,
+      "pageCount":0
+   },
+   "navigator":{  
+      "navigatorSize":3,
+      "first":null,
+      "previous":null,
+      "next":null,
+      "last":null,
+      "numerics":null
    }
 }
 ```
