@@ -214,7 +214,7 @@ Estes exemplos possuem navegador numérico com tamanho 3.
 ```json
 {  
    "options":{  
-      "pageNumber":10,
+      "pageNumber":35,
       "pageSize":10,
       "itemCount":347,
       "pageCount":35
@@ -226,29 +226,23 @@ Estes exemplos possuem navegador numérico com tamanho 3.
          "number":1
       },
       "previous":{  
-         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
-         "number":9
+         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=34",
+         "number":34
       },
-      "next":{  
-         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=11",
-         "number":11
-      },
-      "last":{  
-         "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
-         "number":35
-      },
+      "next":null,
+      "last":null,
       "numerics":[  
          {  
-            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=9",
-            "number":9
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=33",
+            "number":33
          },
          {  
-            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=10",
-            "number":10
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=34",
+            "number":34
          },
          {  
-            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=11",
-            "number":11
+            "url":"http://www.meusite.com/listagem?filtroA=xyz&filtroB=123&pageSize=10&pageNumber=35",
+            "number":35
          }
       ]
    }
