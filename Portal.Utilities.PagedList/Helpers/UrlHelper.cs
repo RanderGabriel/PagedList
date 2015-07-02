@@ -91,7 +91,7 @@ namespace Portal.Utilities.PagedList.Helpers
             }
 
             // Se a quertstring for vazia, retorna collection vazia
-            if (querystring.Trim().Length == 0 || !(querystring.Contains("?") || querystring.Contains("&")))
+            if (querystring.Trim().Length == 0 || !(querystring.Contains("?") || querystring.Contains("&") || querystring.Contains("=")))
                 return collection;
 
             // Passa pelos parâmetros da querystring

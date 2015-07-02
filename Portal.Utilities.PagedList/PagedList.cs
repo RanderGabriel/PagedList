@@ -33,7 +33,7 @@ namespace Portal.Utilities.PagedList
             // Inicializa opções de página
             options = new PageOptions(ItemCount, PageNumber, PageSize);
 
-            
+            // Recupera URL Base para paginar
             OriginUrl = GetUrlBaseToPaging(OriginUrl, PageSize);
 
             // Inicializa Navegador de URL
@@ -57,7 +57,12 @@ namespace Portal.Utilities.PagedList
             url = UrlHelper.RemoveParameterFromQueryString(url, parameters);
 
             // Verifica se URL possui flag de querystring, para inserir "?" ou "&"
-            url += (url.Contains("?")) ? "&" : "?";
+            if (!url.Contains("?") && !url.Contains("?"))
+                url += "?";
+            else if (url.Contains("?") && url.IndexOf("?") == url.Length - 1)
+                url += "";
+            else
+                url += "&";
 
             // Concatena pageSize (fixo para todas urls)
             return url + "pageSize=" + pageSize.ToString();
