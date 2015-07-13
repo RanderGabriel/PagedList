@@ -121,22 +121,28 @@ namespace Portal.Utilities.PagedList.Helpers
         /// <param name="url">coleção de parametros/valor</param>
         /// <returns>Querystring</returns>
         public static string ToQueryString(NameValueCollection collection)
-        {
-            // Inicializa variavel local
+        {		
+			// Inicializa variavel local
             string querystring = String.Empty;
 
-            // Passa pelos parâmetros da querystring
+             // Passa pelos parâmetros da querystring
             for(int i=0; i < collection.Count ; i++)
             {
-                // se não for o primeiro loop, adciona caracter para concatenar parametros
-                if(i>0) querystring += "&";
-
                 // Recupera par chave/valor
                 string key = collection.GetKey(i);
-                string value = collection.Get(i);
 
-                // Concatena chave/valor
-                querystring += key + "=" + value;
+                // Recupera valores
+                var values = collection.GetValues(i);
+                
+                // Atribui a querystring
+                foreach (var value in values) 
+                {
+                    // se não for o primeiro loop, adciona caracter para concatenar parametros
+                    if (!String.IsNullOrWhiteSpace(querystring)) querystring += "&";
+
+                    // Concatena chave/valor
+                    querystring += key + "=" + value;
+                }
             }
             
             // Retorna conversão da collection
